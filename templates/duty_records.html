@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>근무상황 관리</h2>
+
+<section class="panel">
+    <h3>근무상황 등록</h3>
+    <form method="post" class="form-grid">
+        <label>근무자
+            <select name="member_id" required>
+                {% for m in members %}<option value="{{ m.member_id }}">{{ m.name }} / {{ m.workplace_name or '-' }}</option>{% endfor %}
+            </select>
+        </label>
+        <label>근무상황 종류
+            <select name="duty_type" required>
+                {% for t in duty_types %}<option>{{ t }}</option>{% endfor %}
+            </select>
+        </label>
+        <label>세부 종류<input name="duty_subtype" placeholder="예: 반일연가, 조기근무"></label>
+        <label>일자<input type="date" name="duty_date" required></label>
+        <label>시작 시간<input type="time" name="start_time"></label>
+        <label>종료 시간<input type="time" name="end_time"></label>
+        <label class="wide">사유<input name="reason"></label>
+        <label class="check"><input type="checkbox" name="workplace_approved"> 복무기관 승인</label>
+        <label class="check"><input type="checkbox" name="military_office_approved"> 지방병무청 협의/승인</label>
+        <button type="submit">근무상황 등록</button>
+    </form>
+</section>
+
+<section class="panel">
+    <h3>근무상황 검색</h3>
+    <form method="get" class="form-grid">
+        <label>종류
+            <select name="duty_type">
+                <option value="">전체</option>
+                {% for t in duty_types %}<option value="{{ t }}" {% if filters.duty_type == t %}selected{% endif %}>{{ t }}</option>{% endfor %}
+            </select>
+        </label>
+        <label>근무자
+            <select name="member_id">
+                <option value="">전체</option>
+                {% for m in members %}<option value="{{ m.member_id }}" {% if filters.member_id|string == m.member_id|string %}selected{% endif %}>{{ m.name }}</option>{% endfor %}
+            </select>
+        </label>
+        <label>시작일<input type="date" name="start_date" value="{{ filters.start_date }}"></label>
+        <label>종료일<input type="date" name="end_date" value="{{ filters.end_date }}"></label>
+        <button type="submit">검색</button>
+    </form>
+</section>
+
+<section class="panel">
+    <h3>근무상황 기록</h3>
+    <table>
+        <thead><tr><th>일자</th><th>이름</th><th>근무지</th><th>종류</th><th>시간</th><th>승인상태</th><th>사유</th></tr></thead>
+        <tbody>
+        {% for r in records %}
+            <tr>
+                <td>{{ r.duty_date }}</td><td>{{ r.name }}</td><td>{{ r.workplace_name or '-' }}</td>
+                <td>{{ r.duty_type }}{% if r.duty_subtype %} / {{ r.duty_subtype }}{% endif %}</td>
+                <td>{{ r.start_time or '-' }} ~ {{ r.end_time or '-' }}</td>
+                <td>기관 {{ 'O' if r.workplace_approved else 'X' }} / 병무청 {{ 'O' if r.military_office_approved else 'X' }}</td>
+                <td>{{ r.reason or '-' }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

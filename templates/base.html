@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HW01 공익근무요원 복무관리 개선 시스템</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="top">
+    <h1>HW01 공익근무요원 복무관리 개선 시스템</h1>
+    <nav>
+        <a href="{{ url_for('index') }}">홈</a>
+        <a href="{{ url_for('workplaces') }}">근무지 관리</a>
+        <a href="{{ url_for('members') }}">근무자 관리</a>
+        <a href="{{ url_for('duty_records') }}">근무상황 관리</a>
+        <a href="{{ url_for('check_visits') }}">출근점검 관리</a>
+        <a href="{{ url_for('reports') }}">개선사항 조회</a>
+    </nav>
+</header>
+
+<main class="container">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+</main>
+</body>
+</html>

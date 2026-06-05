@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+    <h2>PostgreSQL 기반 복무관리 개선 웹 서비스</h2>
+    <p>
+        본 프로젝트는 복무기관담당자 관점에서 공익근무요원의 근무상황과 출근점검을 관리하기 위한
+        데이터베이스 과제용 웹 서비스입니다.
+    </p>
+</section>
+
+<section class="cards">
+    <div class="card"><strong>{{ counts.workplaces }}</strong><span>근무지</span></div>
+    <div class="card"><strong>{{ counts.members }}</strong><span>공익근무요원</span></div>
+    <div class="card"><strong>{{ counts.duties }}</strong><span>근무상황 기록</span></div>
+    <div class="card"><strong>{{ counts.checks }}</strong><span>출근점검 기록</span></div>
+</section>
+
+<section class="panel">
+    <h3>핵심 개선 기능</h3>
+    <ul>
+        <li>근무상황 종별, 근무자별, 기간별 조회</li>
+        <li>출근점검 시 일일복무상황부 수기 작성 여부 확인</li>
+        <li>최근 출근점검일이 오래된 근무지 우선 조회</li>
+        <li>통상 근무시간 외 근무편성 및 승인 여부 확인</li>
+    </ul>
+</section>
+{% endblock %}

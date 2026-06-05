@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>공익근무요원 관리</h2>
+
+<section class="panel">
+    <h3>요원 등록</h3>
+    <form method="post" class="form-grid">
+        <label>이름<input name="name" required placeholder="성명"></label>
+        <label>생년월일<input type="date" name="birth_date"></label>
+        <label>근무지
+            <select name="workplace_id" required>
+                {% for w in workplaces %}<option value="{{ w.workplace_id }}">{{ w.workplace_name }}</option>{% endfor %}
+            </select>
+        </label>
+        <label>복무 시작일<input type="date" name="start_date"></label>
+        <label>복무 종료일<input type="date" name="end_date"></label>
+        <label>상태
+            <select name="status">
+                <option>복무중</option><option>소집해제</option><option>재지정</option>
+            </select>
+        </label>
+        <button type="submit">요원 등록</button>
+    </form>
+</section>
+
+<section class="panel">
+    <h3>요원 목록</h3>
+    <table>
+        <thead><tr><th>번호</th><th>이름</th><th>근무지</th><th>복무시작일</th><th>복무종료일</th><th>상태</th></tr></thead>
+        <tbody>
+        {% for m in members %}
+            <tr>
+                <td>{{ m.member_id }}</td><td>{{ m.name }}</td><td>{{ m.workplace_name or '-' }}</td>
+                <td>{{ m.start_date or '-' }}</td><td>{{ m.end_date or '-' }}</td><td>{{ m.status }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

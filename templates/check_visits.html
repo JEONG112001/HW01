@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>출근점검 관리</h2>
+<p class="hint">출근점검 저장 시 check_visits 기록 저장과 workplaces 최근 점검일 갱신을 하나의 트랜잭션으로 처리합니다.</p>
+
+<section class="panel">
+    <h3>출근점검 등록</h3>
+    <form method="post" class="form-grid">
+        <label>근무지
+            <select name="workplace_id" required>
+                {% for w in workplaces %}<option value="{{ w.workplace_id }}">{{ w.workplace_name }}</option>{% endfor %}
+            </select>
+        </label>
+        <label>점검일<input type="date" name="check_date" required></label>
+        <label>점검자<input name="checked_by" placeholder="담당자"></label>
+        <label>점검 결과
+            <select name="result">
+                <option>확인</option><option>미흡</option><option>추가확인필요</option>
+            </select>
+        </label>
+        <label class="check wide"><input type="checkbox" name="manual_log_checked"> 일일복무상황부 수기 작성 여부 확인</label>
+        <label class="wide">메모<input name="memo" placeholder="특이사항 없음"></label>
+        <button type="submit">출근점검 저장</button>
+    </form>
+</section>
+
+<section class="panel">
+    <h3>출근점검 기록</h3>
+    <table>
+        <thead><tr><th>점검일</th><th>근무지</th><th>점검자</th><th>복무상황부 확인</th><th>결과</th><th>메모</th></tr></thead>
+        <tbody>
+        {% for c in checks %}
+            <tr>
+                <td>{{ c.check_date }}</td><td>{{ c.workplace_name }}</td><td>{{ c.checked_by or '-' }}</td>
+                <td>{{ 'O' if c.manual_log_checked else 'X' }}</td><td>{{ c.result }}</td><td>{{ c.memo or '-' }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}
