@@ -41,8 +41,6 @@ DB_PASSWORD=비밀번호
 ### 2-6. Flask 실행
 ```bash
 python app.py
-```
-
 브라우저에서 아래 주소로 접속합니다.
 
 ```text
